@@ -23,6 +23,24 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('TESH')
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));
+            Route::middleware([
+                'web',
+                'auth:sanctum',
+                'role:2',
+                config('jetstream.auth_session'),
+            ])
+                ->prefix('docente')
+                ->name('docentes.')
+                ->group(base_path('routes/docentes.php'));
+            Route::middleware([
+                'web',
+                'auth:sanctum',
+                'role:3',
+                config('jetstream.auth_session'),
+            ])
+                ->prefix('alumno')
+                ->name('alumnos.')
+                ->group(base_path('routes/alumnos.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {

@@ -37,6 +37,12 @@ class FortifyServiceProvider extends ServiceProvider
                     case 1: // Administrador
                         return redirect()->route('admin.panel');
                         break;
+                    case 2: // Administrador
+                        return redirect()->route('docentes.panel');
+                        break;
+                    case 3: // Administrador
+                        return redirect()->route('alumnos.panel');
+                        break;
 
                     default:
                         Auth::logout();
@@ -56,7 +62,13 @@ class FortifyServiceProvider extends ServiceProvider
                 switch ($user->type_user_id) {
                     case 1:
                         return redirect()->route('admin.panel');
-
+                        break;
+                    case 2: // Administrador
+                        return redirect()->route('docentes.panel');
+                        break;
+                    case 3: // Administrador
+                        return redirect()->route('alumnos.panel');
+                        break;
                     default:
                         return redirect()->route('home');
                 }

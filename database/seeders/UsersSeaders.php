@@ -18,15 +18,23 @@ class UsersSeaders extends Seeder
     public function run(): void
     {
 
-        $adminType = type_users::create([
-            'name' => 'Admin',
-        ]);
+        $typeUsers = [
+            ['name' => 'Admin'],
+            ['name' => 'Docente'],
+            ['name' => 'Alumno'],
+        ];
+
+        foreach ($typeUsers as $item) {
+            type_users::firstOrCreate(
+                ['name' => $item['name']],
+            );
+        }
 
         $user = user::create([
             'name' => 'Administrador',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('Admin123#'),
-            'type_user_id' => $adminType->id,
+            'type_user_id' => 1,
         ]);
 
         $permissions = [

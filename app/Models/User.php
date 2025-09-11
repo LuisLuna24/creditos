@@ -81,6 +81,6 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->id_tipo_usuario;
+        return $this->type_user_id ;
     }
 }
