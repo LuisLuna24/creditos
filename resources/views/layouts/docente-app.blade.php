@@ -41,10 +41,10 @@
             <div class="flex flex-col gap-2 overflow-y-auto pb-6 mt-8">
                 <ul class="space-y-3">
                     <li>
-                        <a href="{{ route('admin.panel') }}" @class([
+                        <a href="{{ route('docentes.panel') }}" @class([
                             'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
                             'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                'admin.panel'),
+                                'docentes.panel'),
                         ])>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                 class="size-5 shrink-0" aria-hidden="true">
@@ -61,7 +61,7 @@
                                 @class([
                                     'flex items-center justify-between rounded-sm gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-hidden focus-visible:underline',
                                     'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                        'admin.catalogos.*'),
+                                        'docentes.catalogos.*'),
                                 ])
                                 x-bind:class="isExpanded ? 'text-neutral-900 bg-gray-900/10 dark:text-white dark:bg-white/10' :
                                     'text-neutral-600 hover:bg-gray-900/5 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white dark:hover:bg-white/5'">
@@ -79,35 +79,23 @@
                             <ul x-cloak x-collapse x-show="isExpanded" aria-labelledby="user-management-btn"
                                 id="user-management">
                                 <li class="px-1 py-0.5 first:mt-2">
-                                    <a href="{{ route('admin.catalogos.carreras') }}" @class([
+                                    <a href="{{ route('docentes.catalogos.talleres') }}" @class([
                                         'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
                                         'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                            'admin.catalogos.carreras'),
-                                    ])>
-                                        {!! file_get_contents(public_path('svg/chevron-right.svg')) !!}
-                                        <span>Carreras</span>
-                                    </a>
-                                </li>
-
-                                <li class="px-1 py-0.5 first:mt-2">
-                                    <a href="{{ route('admin.catalogos.talleres') }}" @class([
-                                        'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
-                                        'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                            'admin.catalogos.talleres'),
+                                            'docentes.catalogos.talleres'),
                                     ])>
                                         {!! file_get_contents(public_path('svg/chevron-right.svg')) !!}
                                         <span>Talleres</span>
                                     </a>
                                 </li>
-
                                 <li class="px-1 py-0.5 first:mt-2">
-                                    <a href="{{ route('admin.catalogos.dias_semana') }}" @class([
+                                    <a href="{{ route('docentes.catalogos.horarios') }}" @class([
                                         'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
                                         'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                            'admin.catalogos.dias_semana'),
+                                            'docentes.catalogos.horarios'),
                                     ])>
                                         {!! file_get_contents(public_path('svg/chevron-right.svg')) !!}
-                                        <span>Dias de la semana</span>
+                                        <span>Horarios</span>
                                     </a>
                                 </li>
                             </ul>
@@ -120,7 +108,7 @@
                                 @class([
                                     'flex items-center justify-between rounded-sm gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-hidden focus-visible:underline',
                                     'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                        'admin.usuarios.*'),
+                                        'docentes.usuarios.*'),
                                 ])
                                 x-bind:class="isExpanded ? 'text-neutral-900 bg-gray-900/10 dark:text-white dark:bg-white/10' :
                                     'text-neutral-600 hover:bg-gray-900/5 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white dark:hover:bg-white/5'">
@@ -138,21 +126,11 @@
                             <ul x-cloak x-collapse x-show="isExpanded" aria-labelledby="user-management-btn"
                                 id="user-management">
                                 <li class="px-1 py-0.5 first:mt-2">
-                                    <a href="{{ route('admin.usuarios.docentes') }}" @class([
+                                    <a href="{{ route('docentes.usuarios.alumnos') }}" @class([
                                         'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
-                                        'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                            'admin.usuarios.docentes'),
-                                    ])>
-                                        {!! file_get_contents(public_path('svg/chevron-right.svg')) !!}
-                                        <span>Docentes</span>
-                                    </a>
-                                </li>
-
-                                <li class="px-1 py-0.5 first:mt-2">
-                                    <a href="{{ route('admin.usuarios.alumnos') }}" @class([
-                                        'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
-                                        'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                            'admin.usuarios.alumnos'),
+                                        'bg-gray-100 dark:bg-white/10 font-bold' =>
+                                            request()->routeIs('docentes.usuarios.alumnos') ||
+                                            request()->routeIs('docentes.usuarios.alumnos.*'),
                                     ])>
                                         {!! file_get_contents(public_path('svg/chevron-right.svg')) !!}
                                         <span>Alumnos</span>

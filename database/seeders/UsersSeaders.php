@@ -30,12 +30,13 @@ class UsersSeaders extends Seeder
             );
         }
 
-        $user = user::create([
-            'name' => 'Administrador',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('Admin123#'),
-            'type_user_id' => 1,
-        ]);
+        $user = new User();
+        $user->name = "Admin";
+        $user->email = "admin@gmail.com";
+        $user->password = "Admin123#";
+        $user->estatus = "1";
+        $user->type_user_id  = 1;
+        $user->save();
 
         $permissions = [
             ['name' => 'users'],
