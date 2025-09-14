@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->unsignedBigInteger('type_user_id')->default(3);
             $table->foreign('type_user_id')->references('id')->on('type_users');
-            $table->tinyInteger('estatus')->default(0);
+            $table->tinyInteger('estatus')->default(1);
             $table->timestamps();
         });
 

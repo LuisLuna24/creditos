@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('carrera_id');
-            $table->foreign('carrera_id')->references('carrera_id')->on('carrera');
+            $table->foreign('carrera_id')->references('carrera_id')->on('carreras');
             $table->string('nombre',100);
             $table->string('a_paterno',100);
             $table->string('a_materno',100);

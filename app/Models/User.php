@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -79,8 +80,19 @@ class User extends Authenticatable
         return $this->belongsTo(type_users::class, 'type_user_id');
     }
 
+    public function docente()
+    {
+        return $this->hasOne(docentes::class, 'user_id');
+    }
+
+    // Relación: Un usuario puede ser un alumno
+    public function alumno()
+    {
+        return $this->hasOne(alumnos::class, 'user_id');
+    }
+
     public function role()
     {
-        return $this->type_user_id ;
+        return $this->type_user_id;
     }
 }
