@@ -20,6 +20,8 @@
 </head>
 
 <body class="font-sans antialiased dark:text-gray-50">
+    <x-notification />
+
     <div x-data="{ sidebarIsOpen: false }" class="relative flex w-full flex-col md:flex-row">
         <!-- This allows screen readers to skip the sidebar and go directly to the main content. -->
         <a class="sr-only" href="#main-content">skip to the main content</a>
@@ -137,11 +139,23 @@
 
                             <ul x-cloak x-collapse x-show="isExpanded" aria-labelledby="user-management-btn"
                                 id="user-management">
+
+                                <li class="px-1 py-0.5 first:mt-2">
+                                    <a href="{{ route('admin.usuarios') }}" @class([
+                                        'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
+                                        'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
+                                            'admin.usuarios'),
+                                    ])>
+                                        {!! file_get_contents(public_path('svg/chevron-right.svg')) !!}
+                                        <span>Usuarios del sistema</span>
+                                    </a>
+                                </li>
+
                                 <li class="px-1 py-0.5 first:mt-2">
                                     <a href="{{ route('admin.usuarios.docentes') }}" @class([
                                         'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
                                         'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                            'admin.usuarios.docentes'),
+                                            'admin.usuarios.docentes.*') || request()->routeIs('admin.usuarios.docentes') ,
                                     ])>
                                         {!! file_get_contents(public_path('svg/chevron-right.svg')) !!}
                                         <span>Docentes</span>
@@ -152,7 +166,7 @@
                                     <a href="{{ route('admin.usuarios.alumnos') }}" @class([
                                         'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
                                         'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                            'admin.usuarios.alumnos'),
+                                            'admin.usuarios.alumnos.*') || request()->routeIs('admin.usuarios.alumnos') ,
                                     ])>
                                         {!! file_get_contents(public_path('svg/chevron-right.svg')) !!}
                                         <span>Alumnos</span>

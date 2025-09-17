@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('horarios_alumnos', function (Blueprint $table) {
             $table->id('horario_alumno_id');
             $table->unsignedBigInteger('horario_id');
-            $table->foreign('horario_id')->references('horario_id')->on('horarios_talleres');
+            $table->foreign('horario_id')->references('horario_id')->on('horarios_talleres')->onDelete('cascade');
             $table->unsignedBigInteger('alumno_id');
-            $table->foreign('alumno_id')->references('alumno_id')->on('alumnos');
+            $table->foreign('alumno_id')->references('alumno_id')->on('alumnos')->onDelete('cascade');
             $table->tinyInteger('estatus')->default(1);
             $table->timestamps();
         });

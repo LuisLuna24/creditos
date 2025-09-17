@@ -16,6 +16,7 @@ class docentes extends Model
     protected $primaryKey = 'docente_id';
 
     protected $fillable = [
+        'docente_id',
         'user_id',
         'nombre',
         'a_paterno',

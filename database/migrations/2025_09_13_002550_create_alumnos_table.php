@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('alumnos', function (Blueprint $table) {
             $table->id('alumno_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('carrera_id');
             $table->foreign('carrera_id')->references('carrera_id')->on('carreras');
-            $table->string('nombre',100);
-            $table->string('a_paterno',100);
-            $table->string('a_materno',100);
-            $table->enum('sexo', ['M','F'])->default('M');
+            $table->string('nombre', 100);
+            $table->string('a_paterno', 100);
+            $table->string('a_materno', 100);
+            $table->enum('sexo', ['M', 'F'])->default('M');
             $table->tinyInteger('estatus')->default(1);
             $table->timestamps();
         });

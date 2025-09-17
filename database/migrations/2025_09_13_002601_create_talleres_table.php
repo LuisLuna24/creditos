@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('talleres', function (Blueprint $table) {
             $table->id('taller_id');
             $table->unsignedBigInteger('docente_id');
-            $table->foreign('docente_id')->references('docente_id')->on('docentes');
+            $table->foreign('docente_id')->references('docente_id')->on('docentes')->onDelete('cascade');
             $table->string('nombre',100)->unique();
             $table->integer('cupo');
             $table->tinyInteger('estatus')->default(1);

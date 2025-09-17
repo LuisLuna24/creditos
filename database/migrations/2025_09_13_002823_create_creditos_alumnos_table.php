@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('creditos_alumnos', function (Blueprint $table) {
             $table->id('credito_id');
             $table->unsignedBigInteger('alumno_id');
-            $table->foreign('alumno_id')->references('alumno_id')->on('alumnos');
+            $table->foreign('alumno_id')->references('alumno_id')->on('alumnos')->onDelete('cascade');
             $table->unsignedBigInteger('docente_id');
-            $table->foreign('docente_id')->references('docente_id')->on('docentes');
+            $table->foreign('docente_id')->references('docente_id')->on('docentes')->onDelete('cascade');
             $table->unsignedBigInteger('taller_id');
-            $table->foreign('taller_id')->references('taller_id')->on('talleres');
+            $table->foreign('taller_id')->references('taller_id')->on('talleres')->onDelete('cascade');
             $table->tinyInteger('estatus')->default(1);
             $table->timestamps();
         });

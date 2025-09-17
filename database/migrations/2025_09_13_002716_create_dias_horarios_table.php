@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dias_horarios', function (Blueprint $table) {
             $table->id('dia_horario_id');
             $table->unsignedBigInteger('horario_id');
-            $table->foreign('horario_id')->references('horario_id')->on('horarios_talleres');
+            $table->foreign('horario_id')->references('horario_id')->on('horarios_talleres')->onDelete('cascade');
             $table->unsignedBigInteger('dia_id');
             $table->foreign('dia_id')->references('dia_id')->on('dias_semanas');
             $table->timestamps();
