@@ -66,8 +66,8 @@
                     <x-table.td>{{ $item->name }}</x-table.td>
                     <x-table.td>{{ $item->email }}</x-table.td>
                     <x-table.td>
-                        <x-table.button-table tipo="{{ $item->estatus == 1 ? 'active' : 'inactive' }}"
-                            wire:click="status({{ $item->id }})">{{ $item->estatus == 1 ? 'Activo' : 'Inactivo' }}</x-table.button-table>
+                        <x-toggle-switch :id="$item->id" :checked="$item->estatus" :disabled="true"
+                                wireClick="statusRegister({{ $item->id }})" />
                     </x-table.td>
                     <x-table.td-buttons>
                         <x-table.button-table tipo="edit" wire:click="edit({{ $item->id }})" />
@@ -83,4 +83,20 @@
     <div class="mt-6">
         {{ $collection->links() }}
     </div>
+
+    <x-dialog-modal wire:model="estatusModal">
+        <x-slot name="title">
+            <h2 class="text-center">Cambiar estatus del registro</h2>
+        </x-slot>
+        <x-slot name="content">
+            <p class="text-center">¿Desea cambiar el estatus de este docente?</p>
+            <form wire:submit="estatusSubmit">
+                <div class="flex justify-around mt-5">
+                    <x-danger-button wire:click="$set('estatusModal',false)">Cancelar</x-danger-button>
+                    <x-button>Guardar</x-button>
+                </div>
+            </form>
+        </x-slot>
+        <x-slot name="footer"></x-slot>
+    </x-dialog-modal>
 </div>

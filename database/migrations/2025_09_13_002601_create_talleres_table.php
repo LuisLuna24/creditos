@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('docente_id');
             $table->foreign('docente_id')->references('docente_id')->on('docentes')->onDelete('cascade');
             $table->string('nombre',100)->unique();
-            $table->integer('cupo');
             $table->tinyInteger('estatus')->default(1);
             $table->timestamps();
         });

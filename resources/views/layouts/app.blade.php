@@ -92,7 +92,7 @@
                                 </li>
 
                                 <li class="px-1 py-0.5 first:mt-2">
-                                    <a href="{{ route('admin.catalogos.talleres') }}" @class([
+                                    <a href="{{ route('admin.catalogos.talleres.index') }}" @class([
                                         'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
                                         'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
                                             'admin.catalogos.talleres'),

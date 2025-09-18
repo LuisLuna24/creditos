@@ -58,6 +58,41 @@ class Index extends Component
         }
     }
 
+    //*================================================================================================================================= Estatus
+
+    public $estatusModal = false;
+    public $statusId,$status;
+
+    public function statusRegister($id)
+    {
+        $this->estatusModal = true;
+        $data = User::find($id);
+        $this->statusId = $id;
+        $this->status = $data->estatus;
+    }
+
+    public function estatusSubmit()
+    {
+        DB::beginTransaction();
+        try {
+            $data = User::find($this->statusId);
+
+            $data->update([
+                'estatus' => $this->status == 1 ? 0 : 1
+            ]);
+
+            DB::commit();
+            $this->estatusModal = false;
+            $this->reset(['statusId']);
+            $this->notifications('success', 'Docente', 'El estatus cambio con exitio');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            //dd($e->getMessage());
+            $this->notifications('danger', 'Docente', 'Lo sentimos, que ha ocurrido un error. Si el problema persiste, contacte al área de sistemas');
+        }
+    }
+
+
     //*================================================================================================================================= Notification
 
 

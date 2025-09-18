@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('taller_id')->references('taller_id')->on('talleres')->onDelete('cascade');
             $table->time('hora_inicio');
             $table->time('hora_fin');
+            $table->integer('cupo');
             $table->string('periodo',30);
             $table->tinyInteger('estatus')->default(1);
             $table->timestamps();

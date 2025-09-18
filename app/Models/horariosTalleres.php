@@ -20,6 +20,7 @@ class horariosTalleres extends Model
         'taller_id',
         'hora_inicio',
         'hora_fin',
+        'cupo',
         'periodo',
         'estatus',
     ];

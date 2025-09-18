@@ -2,12 +2,142 @@
 
 namespace App\Livewire\Modules\Users\Admin\Catalogos\Talleres;
 
+use App\Models\talleres as ModelsTalleres;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination;
+    public $perEstatus, $perPage = '10', $search;
+
+
+
+    //*================================================================================================================================= Form
+
+    public function create()
+    {
+        return redirect()->route('admin.catalogos.talleres.create');
+    }
+
+    public function edit($id)
+    {
+        return redirect()->route('admin.catalogos.talleres.edit',['id' => $id]);
+    }
+
+    public function view($id)
+    {
+        return redirect()->route('admin.catalogos.talleres.read',['id' => $id]);
+    }
+
+
+    //*================================================================================================================================= Estatus
+
+    public $estatusModal = false;
+    public $statusId, $status;
+
+    public function statusRegister($id)
+    {
+        $this->estatusModal = true;
+        $data = ModelsTalleres::find($id);
+        $this->statusId = $id;
+        $this->status = $data->estatus;
+    }
+
+    public function estatusSubmit()
+    {
+        DB::beginTransaction();
+        try {
+            $data = ModelsTalleres::find($this->statusId);
+
+            $data->update([
+                'estatus' => $this->status == 1 ? 0 : 1
+            ]);
+
+            DB::commit();
+            $this->estatusModal = false;
+            $this->reset(['statusId']);
+            $this->notifications('success', 'Carreas', 'El estatus cambio con exitio');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            //dd($e->getMessage());
+            $this->notifications('danger', 'Carreas', 'Lo sentimos, que ha ocurrido un error. Si el problema persiste, contacte al área de sistemas');
+        }
+    }
+
+
+
+    //*================================================================================================================================= Eliminar
+    public $deleteModal = false;
+    public $delteId;
+    public function delete($id)
+    {
+        $this->deleteModal = true;
+        $this->delteId = $id;
+    }
+
+    public $password, $password_confirmation;
+    public function deleteSubmit()
+    {
+        $this->validate([
+            'password' => 'required|string|confirmed',
+        ]);
+
+        if (!Hash::check($this->password, hashedValue: Auth::user()->password)) {
+            $this->notifications('danger', 'Carreas', 'La contraseña no coincide con la actual.');
+            return;
+        }
+
+        DB::beginTransaction();
+        try {
+            ModelsTalleres::find($this->delteId)->delete();
+
+            DB::commit();
+            $this->deleteModal = false;
+            $this->reset(['delteId']);
+            $this->notifications('danger', 'Carreas', 'El dia ha sido eliminado junto a sus registros');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            //dd($e->getMessage());
+            $this->notifications('danger', 'Carreas', 'Lo sentimos, que ha ocurrido un error. Si el problema persiste, contacte al área de sistemas');
+        }
+    }
+
+    //*================================================================================================================================= Notification
+
+
+    public function notifications($type, $title, $message)
+    {
+        //info-success-danger
+        $this->dispatch('notify',  variant: $type, title: $title, message: $message);
+    }
+
     public function render()
     {
-        return view('livewire.modules.users.admin.catalogos.talleres.index');
+        $collection = ModelsTalleres::query();
+
+
+        if ($this->perEstatus) {
+            switch ($this->perEstatus) {
+                case '1':
+                    $collection = $collection->where('estatus', '1');
+                    break;
+                case '2':
+                    $collection = $collection->where('estatus', '0');
+                    break;
+            }
+        }
+
+        $collection = $collection->where(function ($query) {
+            $query->where('nombre', 'like', '%' . $this->search . '%');
+        });
+
+        $collection = $collection->orderBy('created_at', 'desc')->paginate($this->perPage, pageName: "collection-page");
+        return view('livewire.modules.users.admin.catalogos.talleres.index', [
+            'collection' => $collection
+        ]);
     }
 }

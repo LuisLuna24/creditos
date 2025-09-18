@@ -17,7 +17,6 @@ class talleres extends Model
         'taller_id',
         'docente_id',
         'nombre',
-        'cupo',
         'estatus',
     ];
 
