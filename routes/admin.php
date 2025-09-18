@@ -6,25 +6,57 @@ Route::get('/panel', function () {
     return view('Modules.Paneles.admin');
 })->name('panel');
 
+//& ====================================================================================== Talleres
 Route::get('/catalogos/talleres', function () {
-    return view('dashboard');
-})->name('catalogos.talleres');
+    return view('Modules.Users.Admin.Catalogos.Talleres.index');
+})->name('catalogos.talleres.index');
 
+Route::get('/catalogos/talleres/create', function () {
+    return view('Modules.Users.Admin.Catalogos.Talleres.create');
+})->name('catalogos.talleres.create');
+
+Route::get('/catalogos/talleres/{id}/edit', function ($id) {
+    return view('Modules.Users.Admin.Catalogos.Talleres.edit',['id' => $id]);
+})->name('catalogos.talleres.edit');
+
+Route::get('/catalogos/talleres/{id}/read', function ($id) {
+    return view('Modules.Users.Admin.Catalogos.Talleres.read',['id' => $id]);
+})->name('catalogos.talleres.read');
+
+//& ====================================================================================== Horarios
+Route::get('/catalogos/horarios', function () {
+    return view('Modules.Users.Admin.Catalogos.Horarios.index');
+})->name('catalogos.horarios.index');
+
+Route::get('/catalogos/horarios/create', function () {
+    return view('Modules.Users.Admin.Catalogos.Horarios.create');
+})->name('catalogos.horarios.create');
+
+Route::get('/catalogos/horarios/{id}/edit', function ($id) {
+    return view('Modules.Users.Admin.Catalogos.Horarios.edit',['id' => $id]);
+})->name('catalogos.horarios.edit');
+
+Route::get('/catalogos/horarios/{id}/read', function ($id) {
+    return view('Modules.Users.Admin.Catalogos.Horarios.read',['id' => $id]);
+})->name('catalogos.horarios.read');
+
+//& ====================================================================================== Carreras
 Route::get('/catalogos/carreras', function () {
-    return view('dashboard');
+    return view('Modules.Users.Admin.Catalogos.carreras');
 })->name('catalogos.carreras');
 
+//& ====================================================================================== Dias de la semana
 Route::get('/catalogos/dias_semana', function () {
-    return view('dashboard');
+    return view('Modules.Users.Admin.Catalogos.dias_semana');
 })->name('catalogos.dias_semana');
 
-
+//& ====================================================================================== Usuarios
 Route::get('/usuarios', function () {
     return view('Modules.Users.Admin.index');
 })->name('usuarios');
 
 
-
+//& ====================================================================================== Docentes
 Route::get('/usuarios/docentes', function () {
     return view('Modules.Users.Admin.Docente.index');
 })->name('usuarios.docentes');
@@ -42,7 +74,7 @@ Route::get('/usuarios/docentes/read/{id}', function ($id) {
 })->name('usuarios.docentes.read');
 
 
-
+//& ====================================================================================== Alumnos
 Route::get('/usuarios/alumnos', function () {
     return view('Modules.Users.Admin.Alumno.index');
 })->name('usuarios.alumnos');
