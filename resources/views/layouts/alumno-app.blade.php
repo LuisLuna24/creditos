@@ -55,20 +55,20 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('alumnos.talleres') }}" @class([
+                        <a href="{{ route('alumnos.talleres.index') }}" @class([
                             'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
                             'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                'alumnos.talleres'),
+                                'alumnos.talleres.*'),
                         ])>
                             {!! file_get_contents(public_path('svg/masks-theater.svg')) !!}
                             <span>Mis talleres</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('alumnos.creditos') }}" @class([
+                        <a href="{{ route('alumnos.creditos.index') }}" @class([
                             'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
                             'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                'alumnos.creditos'),
+                                'alumnos.creditos.*'),
                         ])>
                             {!! file_get_contents(public_path('svg/library.svg')) !!}
                             <span>Mis creditos</span>
@@ -123,8 +123,7 @@
                         class="absolute top-14 right-0 z-20 h-fit w-48 border divide-y divide-gray-300 border-gray-300 bg-white dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-950 rounded-sm"
                         role="menu" x-on:click.outside="userDropdownIsOpen = false"
                         x-on:keydown.down.prevent="$focus.wrap().next()"
-                        x-on:keydown.up.prevent="$focus.wrap().previous()" x-transition=""
-                        x-trap="userDropdownIsOpen">
+                        x-on:keydown.up.prevent="$focus.wrap().previous()" x-transition="" x-trap="userDropdownIsOpen">
 
                         <div class="flex flex-col py-1.5">
                             <a href="{{ route('profile.show') }}"
@@ -174,6 +173,7 @@
     @stack('modals')
 
     @livewireScripts
+    <livewire:components.global-notification />
 </body>
 
 </html>

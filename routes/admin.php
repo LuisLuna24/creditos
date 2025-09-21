@@ -23,23 +23,6 @@ Route::get('/catalogos/talleres/{id}/read', function ($id) {
     return view('Modules.Users.Admin.Catalogos.Talleres.read',['id' => $id]);
 })->name('catalogos.talleres.read');
 
-//& ====================================================================================== Horarios
-Route::get('/catalogos/horarios', function () {
-    return view('Modules.Users.Admin.Catalogos.Horarios.index');
-})->name('catalogos.horarios.index');
-
-Route::get('/catalogos/horarios/create', function () {
-    return view('Modules.Users.Admin.Catalogos.Horarios.create');
-})->name('catalogos.horarios.create');
-
-Route::get('/catalogos/horarios/{id}/edit', function ($id) {
-    return view('Modules.Users.Admin.Catalogos.Horarios.edit',['id' => $id]);
-})->name('catalogos.horarios.edit');
-
-Route::get('/catalogos/horarios/{id}/read', function ($id) {
-    return view('Modules.Users.Admin.Catalogos.Horarios.read',['id' => $id]);
-})->name('catalogos.horarios.read');
-
 //& ====================================================================================== Carreras
 Route::get('/catalogos/carreras', function () {
     return view('Modules.Users.Admin.Catalogos.carreras');

@@ -56,9 +56,8 @@
             <x-table.th>No.</x-table.th>
             <x-table.th>Docente</x-table.th>
             <x-table.th>Nombre</x-table.th>
-            <x-table.th>Inscritos</x-table.th>
             <x-table.th>Estatus</x-table.th>
-            <x-table.th>Acciones</x-table.th>
+            <x-table.th class="text-center">Acciones</x-table.th>
         </x-slot>
         <x-slot name="rows">
             @forelse ($collection as $index => $item)
@@ -66,7 +65,6 @@
                     <x-table.td>{{ ($collection->currentPage() - 1) * $collection->perPage() + $loop->iteration }}</x-table.td>
                     <x-table.td>{{ $item->docente->user->name }}</x-table.td>
                     <x-table.td>{{ $item->nombre }}</x-table.td>
-                    <x-table.td>{{ $item->cupo }}</x-table.td>
                     <x-table.td>
                         <x-toggle-switch :id="$item->taller_id" :checked="$item->estatus" :disabled="true"
                             wireClick="statusRegister({{ $item->taller_id }})" />
@@ -83,8 +81,8 @@
 
         </x-slot>
     </x-table.table>
-    <div class="mt-6">
-        {{ $collection->links() }}
+    <div class="mt-3">
+        {{ $collection->onEachSide(1)->links() }}
     </div>
 
     <x-dialog-modal wire:model="deleteModal">

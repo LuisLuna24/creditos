@@ -20,6 +20,8 @@ class horariosTalleres extends Model
         'taller_id',
         'hora_inicio',
         'hora_fin',
+        'dia_inicio',
+        'dia_fin',
         'cupo',
         'periodo',
         'estatus',
@@ -27,6 +29,8 @@ class horariosTalleres extends Model
     protected $casts = [
         'hora_inicio' => 'datetime:H:i',
         'hora_fin' => 'datetime:H:i',
+        'dia_inicio' => 'date',    // <--- ¡Asegúrate que esta línea exista!
+        'dia_fin' => 'date',
     ];
 
     public function taller(): BelongsTo

@@ -18,14 +18,15 @@ class diasHorarios extends Model
         'horario_id',
         'dia_id',
     ];
-    public function horario(): HasMany
+    public function horario(): BelongsTo
     {
-        return $this->HasMany(horariosTalleres::class, 'horario_id', 'horario_id');
+        return $this->BelongsTo(horariosTalleres::class, 'horario_id', 'horario_id');
     }
-    public function dia(): HasMany
+    public function dia(): BelongsTo
     {
-        return $this->HasMany(diasSemana::class, 'dia_id', 'dia_id');
+        return $this->BelongsTo(diasSemana::class, 'dia_id', 'dia_id');
     }
+
 
      use HasFactory;
 }

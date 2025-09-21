@@ -20,7 +20,7 @@ class horariosAlumnos extends Model
         'estatus',
     ];
 
-    public function alumno(): BelongsTo
+    public function alumnos(): BelongsTo
     {
         return $this->BelongsTo(alumnos::class, 'alumno_id', 'alumno_id');
     }
