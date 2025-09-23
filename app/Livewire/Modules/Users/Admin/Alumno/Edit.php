@@ -28,6 +28,7 @@ class Edit extends Component
 
         $this->dataForm->searchAlumno($this->id);
         $this->userForm->searchUser($this->id);
+        $this->dataForm->esAlumno = 1;
     }
 
     #[Locked]

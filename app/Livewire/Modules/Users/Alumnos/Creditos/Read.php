@@ -26,20 +26,23 @@ class Read extends Component
     {
         $this->horarioForm->searchDias();
 
-        $this->hoarioId = creditosAlumnos::find($this->id)->horario_id;
+        $this->hoarioId = creditosAlumnos::find($this->id);
 
-        $this->horarioForm->searchData($this->hoarioId);
+        $this->horarioForm->searchData($this->hoarioId->credito_id );
         $this->searchData();
     }
 
-    public $nombre, $docente, $alumno;
+    public $nombre, $docente, $alumno, $valor_numerico, $numero_creditos,$desempenio;
     public function searchData()
     {
-        $data = horariosTalleres::find($this->hoarioId);
+        $data = horariosTalleres::find($this->hoarioId->credito_id);
 
         $this->nombre = $data->taller->nombre;
         $this->docente = $data->taller->docente->user->name;
         $this->alumno = Auth::user()->alumno->user->name;
+        $this->valor_numerico = $this->hoarioId->valor_numerico;
+        $this->numero_creditos = $this->hoarioId->valor_creditos;
+        $this->desempenio = $this->hoarioId->desempenio;
     }
 
     public function render()

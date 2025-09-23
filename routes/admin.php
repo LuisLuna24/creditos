@@ -6,6 +6,11 @@ Route::get('/panel', function () {
     return view('Modules.Paneles.admin');
 })->name('panel');
 
+//& ====================================================================================== Perfil
+Route::get('/perfile', function () {
+    return view('Modules.Users.Admin.profile');
+})->name('profile');
+
 //& ====================================================================================== Talleres
 Route::get('/catalogos/talleres', function () {
     return view('Modules.Users.Admin.Catalogos.Talleres.index');

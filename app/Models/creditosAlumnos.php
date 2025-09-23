@@ -17,6 +17,8 @@ class creditosAlumnos extends Model
         'docente_id',
         'taller_id',
         'horario_id',
+        'valor_numerico',
+        'valor_creditos',
         'estatus',
     ];
 

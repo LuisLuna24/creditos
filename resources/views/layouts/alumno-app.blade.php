@@ -126,7 +126,7 @@
                         x-on:keydown.up.prevent="$focus.wrap().previous()" x-transition="" x-trap="userDropdownIsOpen">
 
                         <div class="flex flex-col py-1.5">
-                            <a href="{{ route('profile.show') }}"
+                            <a href="{{ route('alumnos.profile') }}"
                                 class="flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white"
                                 role="menuitem">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"

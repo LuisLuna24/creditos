@@ -23,6 +23,7 @@ class alumnos extends Model
         'a_materno',
         'carrera_id',
         'sexo',
+        'semestre',
         'estatus',
     ];
 

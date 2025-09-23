@@ -21,6 +21,9 @@ return new class extends Migration
             $table->foreign('taller_id')->references('taller_id')->on('talleres')->onDelete('cascade');
             $table->unsignedBigInteger('horario_id');
             $table->foreign('horario_id')->references('horario_id')->on('horarios_talleres')->onDelete('cascade');
+            $table->integer('valor_numerico')->default(1);
+            $table->integer('valor_creditos')->default(1);
+            $table->enum('desempenio', ['Bueno', 'Regular','Malo'])->default('Bueno');
             $table->tinyInteger('estatus')->default(1);
             $table->timestamps();
         });

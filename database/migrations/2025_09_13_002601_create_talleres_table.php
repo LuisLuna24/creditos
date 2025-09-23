@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id('taller_id');
             $table->unsignedBigInteger('docente_id');
             $table->foreign('docente_id')->references('docente_id')->on('docentes')->onDelete('cascade');
-            $table->string('nombre',100)->unique();
+            $table->string('nombre', 100)->unique();
+            $table->enum('tipo', ['Academico', 'Cultural', 'Deportivo'])->default('Deportivo');
             $table->tinyInteger('estatus')->default(1);
             $table->timestamps();
         });

@@ -12,7 +12,6 @@
                     class="p-6 text-center bg-white rounded-lg shadow-md dark:bg-slate-800 dark:border dark:border-slate-700">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ $nombre }}</h2>
                     <p class="text-gray-500 dark:text-slate-400">{{ $correo }}</p>
-                    <p class="mt-2 text-sm text-indigo-600 dark:text-indigo-400">{{ $carrera }}</p>
                 </div>
             </aside>
 
@@ -21,21 +20,20 @@
                     class="bg-white rounded-lg shadow-md dark:bg-slate-800 dark:border dark:border-slate-700">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white">Información del Perfil</h3>
-                        <p class="mt-1 text-sm text-gray-600 dark:text-slate-400">Estos datos son visibles para los
-                            administradores.</p>
-                        <div class="flex flex-col gap-1 mb-2">
-                            <label for="dataForm.carrera">Carrera:</label>
-                            <x-select wire:model="dataForm.carrera">
-                                <option value="" disabled>Seleccione una opción</option>
-                                @forelse($carreras as $item)
-                                    <option value="{{ $item->carrera_id }}">{{ $item->nombre }}</option>
-                                @empty
-                                    <option value="0" disabled>No hay carreras registradas</option>
-                                @endforelse
-                            </x-select>
-                            <x-input-error for="dataForm.carrera" />
+                        <div class="grid grid-cols-1 gap-6 mt-6">
+                            <div class="flex flex-col gap-1">
+                                <label for="name"
+                                    class="block text-sm font-medium text-gray-700 dark:text-slate-300">Nombre Completo</label>
+                                <x-input type="text" id="name" wire:model="name" />
+                                <x-input-error for="name" />
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label for="email"
+                                    class="block text-sm font-medium text-gray-700 dark:text-slate-300">Correo</label>
+                                <x-input type="email" id="email" wire:model="email" />
+                                <x-input-error for="email" />
+                            </div>
                         </div>
-                        @include('Modules.Shere.Users.data-form')
                     </div>
 
                     <div class="px-6 py-3 text-right bg-gray-50 rounded-b-lg dark:bg-slate-800/50">
@@ -72,7 +70,8 @@
                                 <label for="password_confirmation"
                                     class="block text-sm font-medium text-gray-700 dark:text-slate-300">Confirmar Nueva
                                     Contraseña</label>
-                                <x-input type="password" id="password_confirmation" wire:model="password_confirmation" />
+                                <x-input type="password" id="password_confirmation"
+                                    wire:model="password_confirmation" />
                                 <x-input-error for="password_confirmation" />
                             </div>
                         </div>

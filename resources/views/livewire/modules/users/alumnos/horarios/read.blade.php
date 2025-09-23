@@ -30,60 +30,57 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @forelse ($horarios as $item)
                     <article
-                        class="relative bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col transform hover:scale-105 transition-transform duration-300 ease-in-out">
-                        <div class="p-6 flex-grow flex flex-col">
-                            <div class="space-y-4 text-sm">
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center text-gray-600 dark:text-gray-300">
-                                        <svg class="h-5 w-5 mr-3 text-gray-400" xmlns="http://www.w.org/2000/svg"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        <span class="font-medium">
-                                            {{ \Carbon\Carbon::parse($item->hora_inicio)->format('g:i A') }} -
-                                            {{ \Carbon\Carbon::parse($item->hora_fin)->format('g:i A') }}
-                                        </span>
-                                    </div>
-                                    @php
-                                        // Calculamos los lugares disponibles una sola vez
-                                        $lugaresDisponibles = $item->cupo - $item->alumnos->count();
-                                    @endphp
+                        class="relative flex flex-col overflow-hidden transition-transform duration-300 ease-in-out transform bg-white rounded-lg shadow-lg dark:bg-slate-800 dark:border dark:border-slate-700 hover:scale-105">
 
-                                    <div class="absolute top-4 right-4 z-10">
-                                        @if ($lugaresDisponibles <= 0)
-                                            <span
-                                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
-                                                Agotado
-                                            </span>
-                                        @elseif ($lugaresDisponibles <= 5)
-                                            <span
-                                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
-                                                ¡Últimos {{ $lugaresDisponibles }}!
-                                            </span>
-                                        @else
-                                            <span
-                                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                                                {{ $lugaresDisponibles }} Disponibles
-                                            </span>
-                                        @endif
-                                    </div>
+                        <div class="flex flex-col flex-grow p-6">
+
+                            <div class="flex items-start justify-between mb-4">
+                                @php
+                                    $lugaresDisponibles = $item->cupo - $item->alumnos->count();
+                                @endphp
+                                <div class="flex-shrink-0">
+                                    @if ($lugaresDisponibles <= 0)
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 text-xs font-medium text-red-800 bg-red-100 rounded-full dark:text-red-200 dark:bg-red-900/50">
+                                            Agotado
+                                        </span>
+                                    @elseif ($lugaresDisponibles <= 5)
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 text-xs font-medium text-yellow-800 bg-yellow-100 rounded-full dark:text-yellow-200 dark:bg-yellow-900/50">
+                                            ¡Últimos {{ $lugaresDisponibles }}!
+                                        </span>
+                                    @else
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full dark:text-green-200 dark:bg-green-900/50">
+                                            {{ $lugaresDisponibles }} Disponibles
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="space-y-3 text-sm text-gray-600 dark:text-slate-300">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3 text-gray-400 dark:text-slate-500" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span class="font-medium">
+                                        {{ \Carbon\Carbon::parse($item->hora_inicio)->format('g:i A') }} -
+                                        {{ \Carbon\Carbon::parse($item->hora_fin)->format('g:i A') }}
+                                    </span>
                                 </div>
 
-                                <hr>
-
-
                                 <div class="flex items-start">
-                                    <svg class="h-5 w-5 mr-3 text-gray-400 flex-shrink-0"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
+                                    <svg class="w-5 h-5 mr-3 text-gray-400 dark:text-slate-500 flex-shrink-0"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                     <div class="flex flex-wrap gap-2">
                                         @forelse ($item->dias as $dia)
                                             <span
-                                                class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded-full dark:bg-blue-900 dark:text-blue-200">
+                                                class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded-full dark:bg-blue-900/70 dark:text-blue-200">
                                                 {{ $dia->nombre }}
                                             </span>
                                         @empty
@@ -93,11 +90,9 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="flex-grow"></div>
                         </div>
 
-                        <div class="bg-gray-50 dark:bg-gray-700/50 p-4 mt-6">
+                        <div class="p-4 mt-auto bg-gray-300 dark:bg-slate-700/50">
                             <x-button wire:click="inscribir({{ $item->horario_id }})" class="w-full" :disabled="$lugaresDisponibles <= 0">
                                 {{ $lugaresDisponibles > 0 ? 'Inscribirme' : 'Cupo Lleno' }}
                             </x-button>

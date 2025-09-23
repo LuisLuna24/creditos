@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('a_paterno', 100);
             $table->string('a_materno', 100);
             $table->enum('sexo', ['M', 'F'])->default('M');
+            $table->tinyInteger('semestre')->default(1);
             $table->tinyInteger('estatus')->default(1);
             $table->timestamps();
         });

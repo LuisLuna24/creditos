@@ -12,7 +12,9 @@ use Livewire\Form;
 
 class dataForm extends Form
 {
-    public $matricula, $nombre, $a_paterno, $a_materno, $sexo = "M", $carrera = '';
+    public $matricula, $nombre, $a_paterno, $a_materno, $sexo = "M", $carrera = '', $semestre = '';
+
+    public $esAlumno = 0;
 
     public function validateFormAlumnos()
     {
@@ -23,6 +25,7 @@ class dataForm extends Form
             'a_materno' => ['required', 'string', 'max:100'],
             'sexo' => ['required'],
             'carrera' => ['required'],
+            'semestre' => ['required']
         ]);
     }
 
@@ -46,6 +49,7 @@ class dataForm extends Form
             'a_materno',
             'sexo',
             'carrera',
+            'semestre'
         ]);
     }
 
@@ -59,7 +63,8 @@ class dataForm extends Form
             'nombre' => $this->nombre,
             'a_paterno' => $this->a_paterno,
             'a_materno' => $this->a_materno,
-            'sexo' => $this->sexo
+            'sexo' => $this->sexo,
+            'semestre' => $this->semestre,
         ]);
 
         User::find($userId)->update([
@@ -97,19 +102,19 @@ class dataForm extends Form
         $this->a_paterno = $data->a_paterno;
         $this->a_materno = $data->a_materno;
         $this->sexo = $data->sexo;
+        $this->semestre = $data->semestre;
     }
 
     public function editAlumno()
     {
-
         $data = alumnos::find($this->alumnoId);
-
         $data->update([
             'carrera_id ' => $this->carrera,
             'nombre' => $this->nombre,
             'a_paterno' => $this->a_paterno,
             'a_materno' => $this->a_materno,
-            'sexo' => $this->sexo
+            'sexo' => $this->sexo,
+            'semestre' => $this->semestre
         ]);
 
         User::find($data->user_id)->update([

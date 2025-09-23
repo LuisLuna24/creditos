@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Livewire\Modules\Users\Alumnos;
+namespace App\Livewire\Modules\Users\Admin;
 
-use App\Livewire\Forms\Share\Users\dataForm;
-use App\Models\carreras;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -11,12 +9,11 @@ use Livewire\Component;
 
 class Profile extends Component
 {
-    public dataForm $dataForm;
+
     public $carreras = [];
 
     public function mount()
     {
-        $this->carreras = carreras::where('estatus', 1)->orderBy('nombre', 'asc')->get();
         $this->searchData();
     }
 
@@ -27,19 +24,26 @@ class Profile extends Component
         $data = Auth::user();
         $this->nombre = $data->name;
         $this->correo = $data->email;
-        $this->carrera = $data->alumno->carrera->nombre;
-        $this->dataForm->searchAlumno($data->id);
-        $this->dataForm->esAlumno = 1;
+        $this->name = $data->name;
+        $this->email = $data->email;
     }
 
+    public $name, $email;
     public function submitDataForm()
     {
-        $this->dataForm->validateFormAlumnos();
+        $this->validate([
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'max:255', 'email'],
+        ]);
 
         DB::beginTransaction();
         try {
 
-            $this->dataForm->editAlumno();
+            Auth::user()->update([
+                'name' => $this->name,
+                'email' => $this->email,
+            ]);
+
             DB::commit();
             $this->notifications('success', 'Perfil', 'Se ha actualizado con éxito la información de tu perfil.');
             $this->searchData();
@@ -91,6 +95,6 @@ class Profile extends Component
 
     public function render()
     {
-        return view('livewire.modules.users.alumnos.profile');
+        return view('livewire.modules.users.admin.profile');
     }
 }

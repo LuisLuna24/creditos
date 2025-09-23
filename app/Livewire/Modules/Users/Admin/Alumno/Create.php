@@ -18,8 +18,8 @@ class Create extends Component
     public function mount()
     {
         $this->carreras = carreras::where('estatus', 1)->orderBy('nombre', 'asc')->get();
-
         $this->resetSteps();
+        $this->dataForm->esAlumno = 1;
     }
 
     #[Locked]
