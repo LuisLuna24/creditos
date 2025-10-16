@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\talleres;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/panel', function () {
@@ -17,28 +19,23 @@ Route::get('talleres/create', function () {
 })->name('talleres.create');
 
 Route::get('talleres/{id}/edit', function ($id) {
-    return view('Modules.Users.Docentes.Talleres.edit',['id' => $id]);
+    return view('Modules.Users.Docentes.Talleres.edit', ['id' => $id]);
 })->name('talleres.edit');
 
 Route::get('talleres/{id}/read', function ($id) {
-    return view('Modules.Users.Docentes.Talleres.read',['id' => $id]);
-})->name('talleres.read');
+    $docente = Auth::user();
+
+    $taller = talleres::findOrFail($id);
+    if ($taller->user_id !== $docente->id) {
+        abort(403, 'No tienes permiso para ver este taller.');
+    }
+    return view('Modules.Users.Docentes.Talleres.read', ['id' => $id]);
+})->name('talleres.read')->middleware('auth');
 
 //& ====================================================================================== Horarios
-Route::get('horarios', function () {
-    return view('Modules.Users.Docentes.Horarios.index');
-})->name('horarios.index');
-
-Route::get('horarios/create', function () {
-    return view('Modules.Users.Docentes.Horarios.create');
-})->name('horarios.create');
-
-Route::get('horarios/{id}/edit', function ($id) {
-    return view('Modules.Users.Docentes.Horarios.edit',['id' => $id]);
-})->name('horarios.edit');
 
 Route::get('horarios/{id}/read', function ($id) {
-    return view('Modules.Users.Docentes.Horarios.read',['id' => $id]);
+    return view('Modules.Users.Docentes.Horarios.read', ['id' => $id]);
 })->name('horarios.read');
 
 

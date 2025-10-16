@@ -1,100 +1,107 @@
-<div class="p-6 md:p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
+<div class="p-6 md:p-8 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-lg max-w-4xl mx-auto">
     <div x-data="{ selectedTab: 'groups' }" class="w-full">
-        <div x-on:keydown.right.prevent="$focus.wrap().next()" x-on:keydown.left.prevent="$focus.wrap().previous()"
-            class="flex gap-2 overflow-x-auto border-b border-neutral-300 dark:border-neutral-700" role="tablist"
-            aria-label="tab options">
-            <button x-on:click="selectedTab = 'groups'" x-bind:aria-selected="selectedTab === 'groups'"
-                x-bind:tabindex="selectedTab === 'groups' ? '0' : '-1'"
-                x-bind:class="selectedTab === 'groups' ?
-                    'font-bold text-black border-b-2 border-black dark:border-white dark:text-white' :
-                    'text-neutral-600 font-medium dark:text-neutral-300 dark:hover:border-b-neutral-300 dark:hover:text-white hover:border-b-2 hover:border-b-neutral-800 hover:text-neutral-900'"
-                class="h-min px-4 py-2 text-sm" type="button" role="tab"
-                aria-controls="tabpanelGroups">Credito</button>
-            <button x-on:click="selectedTab = 'likes'" x-bind:aria-selected="selectedTab === 'likes'"
-                x-bind:tabindex="selectedTab === 'likes' ? '0' : '-1'"
-                x-bind:class="selectedTab === 'likes' ?
-                    'font-bold text-black border-b-2 border-black dark:border-white dark:text-white' :
-                    'text-neutral-600 font-medium dark:text-neutral-300 dark:hover:border-b-neutral-300 dark:hover:text-white hover:border-b-2 hover:border-b-neutral-800 hover:text-neutral-900'"
-                class="h-min px-4 py-2 text-sm" type="button" role="tab"
-                aria-controls="tabpanelLikes">Taller</button>
+        <div class="border-b border-gray-200 dark:border-gray-700">
+            <nav class="-mb-px flex gap-6" role="tablist" aria-label="Tab options">
+                <button @click="selectedTab = 'groups'"
+                    :class="selectedTab === 'groups' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' :
+                        'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600'"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" role="tab"
+                    :aria-selected="selectedTab === 'groups'" :tabindex="selectedTab === 'groups' ? '0' : '-1'">
+                    Detalles del Crédito
+                </button>
+                <button @click="selectedTab = 'likes'"
+                    :class="selectedTab === 'likes' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' :
+                        'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600'"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" role="tab"
+                    :aria-selected="selectedTab === 'likes'" :tabindex="selectedTab === 'likes' ? '0' : '-1'">
+                    Información del Taller
+                </button>
+            </nav>
         </div>
-        <div class="px-2 py-4 text-neutral-600 dark:text-neutral-300">
-            <div x-cloak x-show="selectedTab === 'groups'" id="tabpanelGroups" role="tabpanel" aria-label="groups">
-                <div class="mb-6">
-                    <h2 class="text-2xl font-bold mb-4">{{ $nombre }}</h2>
 
-                    <div class="space-y-4 divide-y divide-gray-200">
+        <div class="py-6">
+            <div x-cloak x-show="selectedTab === 'groups'" role="tabpanel" aria-label="groups">
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 p-6">
 
-                        <div class="flex items-center pt-4 first:pt-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-indigo-500 flex-shrink-0"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                                <path
-                                    d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-5.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-5.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222 4 2.222V20M1 12v7a2 2 0 002 2h18a2 2 0 002-2v-7" />
-                            </svg>
-                            <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                                <span class="font-semibold">Docente:</span>
-                                <span>{{ $docente }}</span>
-                            </div>
+                    <div
+                        class="flex flex-col sm:flex-row justify-between items-start gap-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                        <div>
+                            <span class="block text-sm font-medium text-indigo-600 dark:text-indigo-400">Constancia de
+                                Acreditación</span>
+                            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ $nombre }}</h2>
                         </div>
 
-                        <div class="flex items-center pt-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-indigo-500 flex-shrink-0"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">12
-                                <span class="font-semibold">Alumno:</span>
-                                <span>{{ $alumno }}</span>
+                        <div class="text-center flex-shrink-0">
+                            <span class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Calificación Final</span>
+                            @php($desempenio = strtolower($desempenio))
+                            <span
+                                class="inline-flex items-center gap-x-1.5 py-1.5 px-4 rounded-full text-lg font-semibold
+                                {{ $desempenio == 'excelente' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : '' }}
+                                {{ $desempenio == 'bueno' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : '' }}
+                                {{ $desempenio == 'regular' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : '' }}
+                                {{ $desempenio == 'insuficiente' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : '' }}">
+                                {{ ucfirst($desempenio) }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 mt-6">
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-x-4">
+                                <svg class="h-6 w-6 text-gray-400 mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 dark:text-gray-200">Alumno</h3>
+                                    <p class="text-gray-600 dark:text-gray-400">{{ $alumno }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-x-4">
+                                <svg class="h-6 w-6 text-gray-400 mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0l-.07.004c-.03.002-.06.004-.09.006l-.09.006c-.09.006-.179.01-.268.014l-.068.007-.068.007c-.083.009-.164.017-.246.026l-.07.009c-.097.012-.193.023-.288.034l-.074.009-.074.009c-.093.011-.187.022-.28.033l-.07.008c-.097.012-.193.023-.288.035l-.074.008c-.094.012-.187.022-.28.033l-.07.008-.097.012-.073.008c-.097.012-.193.023-.288.035l-.074.008-.094.012l-.07.008c-.097.012-.193.023-.288.034l-.074.009c-.094.012-.187.022-.28.033l-.07.008-.097.012l-.073.008c-.097.012-.193.023-.288.034l-.074.009-.094.012-.07.008c-.097.012-.193.023-.288.035l-.073.008c-.097.012-.193.023-.288.034" />
+                                </svg>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 dark:text-gray-200">Docente</h3>
+                                    <p class="text-gray-600 dark:text-gray-400">{{ $docente }}</p>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="flex items-center pt-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-indigo-500 flex-shrink-0"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-                            </svg>
-                            <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                                <span class="font-semibold">Valor numérico:</span>
-                                <span>{{ $valor_numerico }}</span>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center pt-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-indigo-500 flex-shrink-0"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.95-.69l1.519-4.674z" />
-                            </svg>
-                            <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                                <span class="font-semibold">Número de créditos:</span>
-                                <span>{{ $numero_creditos }}</span>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center pt-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-graph h-6 w-6 mr-3 text-indigo-500 flex-shrink-0">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path
-                                    d="M4 18v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
-                                <path d="M7 14l3 -3l2 2l3 -3l2 2" />
-                            </svg>
-                            <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                                <span class="font-semibold">Desempeño de actividades:</span>
-                                <span>{{ $desempenio }}</span>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-x-4">
+                                <svg class="h-6 w-6 text-gray-400 mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                                </svg>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 dark:text-gray-200">Valor del Crédito</h3>
+                                    <p class="text-gray-600 dark:text-gray-400">{{ $numero_creditos }} créditos con
+                                        valor de {{ $valor_numerico }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <!--div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-right">
+                        <x-button class="!bg-indigo-600 hover:!bg-indigo-700">
+                            <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            </svg>
+                            Descargar Constancia
+                        </x-button>
+                    </div-->
                 </div>
             </div>
-            <div x-cloak x-show="selectedTab === 'likes'" id="tabpanelLikes" role="tabpanel" aria-label="likes">
-                <fieldset class="max-w-4xl" disabled>
+
+            <div x-cloak x-show="selectedTab === 'likes'" role="tabpanel" aria-label="likes">
+                <fieldset class="max-w-4xl opacity-60" disabled>
                     @include('Modules.Shere.Talleres.horarios-form')
                 </fieldset>
             </div>

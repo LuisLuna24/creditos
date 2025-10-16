@@ -60,11 +60,11 @@ class Index extends Component
             DB::commit();
             $this->estatusModal = false;
             $this->reset(['statusId']);
-            $this->notifications('success', 'Carreas', 'El estatus cambio con exitio');
+            $this->notifications('success', 'Talleres', 'El estatus cambio con exitio');
         } catch (\Exception $e) {
             DB::rollBack();
             //dd($e->getMessage());
-            $this->notifications('danger', 'Carreas', 'Lo sentimos, que ha ocurrido un error. Si el problema persiste, contacte al área de sistemas');
+            $this->notifications('danger', 'Talleres', 'Lo sentimos, que ha ocurrido un error. Si el problema persiste, contacte al área de sistemas');
         }
     }
 
@@ -87,7 +87,7 @@ class Index extends Component
         ]);
 
         if (!Hash::check($this->password, hashedValue: Auth::user()->password)) {
-            $this->notifications('danger', 'Carreas', 'La contraseña no coincide con la actual.');
+            $this->notifications('danger', 'Talleres', 'La contraseña no coincide con la actual.');
             return;
         }
 
@@ -98,11 +98,11 @@ class Index extends Component
             DB::commit();
             $this->deleteModal = false;
             $this->reset(['delteId']);
-            $this->notifications('danger', 'Carreas', 'El dia ha sido eliminado junto a sus registros');
+            $this->notifications('danger', 'Talleres', 'El dia ha sido eliminado junto a sus registros');
         } catch (\Exception $e) {
             DB::rollBack();
             //dd($e->getMessage());
-            $this->notifications('danger', 'Carreas', 'Lo sentimos, que ha ocurrido un error. Si el problema persiste, contacte al área de sistemas');
+            $this->notifications('danger', 'Talleres', 'Lo sentimos, que ha ocurrido un error. Si el problema persiste, contacte al área de sistemas');
         }
     }
 

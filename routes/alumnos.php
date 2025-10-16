@@ -60,6 +60,10 @@ Route::get('/mis_creditos/{id}/read', function ($id) {
 
 
 //& ====================================================================================== Perfil
-Route::get('/perfile', function () {
+Route::get('/perfil', function () {
     return view('Modules.Users.Alumnos.profile');
 })->name('profile');
+
+Route::get('/completar_perfil', function () {
+    return view('Modules.Users.Alumnos.complete_profile');
+})->name('complete_profile');

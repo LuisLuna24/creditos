@@ -30,8 +30,7 @@ class FortifyServiceProvider extends ServiceProvider
             public function toResponse($request)
             {
 
-                $user = Auth::user();
-
+                $user = User::where('email', $request->email)->first();
 
                 switch ($user->type_user_id) {
                     case 1: // Administrador
@@ -57,7 +56,7 @@ class FortifyServiceProvider extends ServiceProvider
         {
             public function toResponse($request)
             {
-                $user = Auth::user();
+                $user = User::where('email', $request->email)->first();
 
                 switch ($user->type_user_id) {
                     case 1:
@@ -67,7 +66,11 @@ class FortifyServiceProvider extends ServiceProvider
                         return redirect()->route('docentes.panel');
                         break;
                     case 3: // Administrador
-                        return redirect()->route('alumnos.panel');
+                        if ($user->alumno) {
+                            return redirect()->route('alumnos.panel');
+                        } else {
+                            return redirect()->route('alumnos.complete_profile');
+                        }
                         break;
                     default:
                         return redirect()->route('home');
