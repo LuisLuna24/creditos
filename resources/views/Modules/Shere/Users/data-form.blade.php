@@ -2,10 +2,23 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
         <div class="flex flex-col gap-1 md:col-span-2">
             <label for="matricula">Matrícula:</label>
-            <x-input type="number" wire:model="dataForm.matricula" id="matricula" />
+            <x-input type="number" wire:model="dataForm.matricula" id="matricula" disabled />
             <x-input-error for="dataForm.matricula" class="mt-2 text-sm text-red-600" />
         </div>
-
+        @if ($dataForm->esAlumno == 1)
+            <div class="flex flex-col gap-1 mb-2 md:col-span-2">
+                <label for="dataForm.carrera">Carrera:</label>
+                <x-select wire:model="dataForm.carrera">
+                    <option value="" disabled>Seleccione una opción</option>
+                    @forelse($carreras as $item)
+                        <option value="{{ $item->carrera_id }}">{{ $item->nombre }}</option>
+                    @empty
+                        <option value="0" disabled>No hay carreras registradas</option>
+                    @endforelse
+                </x-select>
+                <x-input-error for="dataForm.carrera" />
+            </div>
+        @endif
         <div class="flex flex-col gap-1 md:col-span-2">
             <label for="nombre">Nombre/s:</label>
             <x-input wire:model="dataForm.nombre" id="nombre" />

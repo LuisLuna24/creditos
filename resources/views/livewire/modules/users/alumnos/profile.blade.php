@@ -23,18 +23,6 @@
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white">Información del Perfil</h3>
                         <p class="mt-1 text-sm text-gray-600 dark:text-slate-400">Estos datos son visibles para los
                             administradores.</p>
-                        <div class="flex flex-col gap-1 mb-2">
-                            <label for="dataForm.carrera">Carrera:</label>
-                            <x-select wire:model="dataForm.carrera">
-                                <option value="" disabled>Seleccione una opción</option>
-                                @forelse($carreras as $item)
-                                    <option value="{{ $item->carrera_id }}">{{ $item->nombre }}</option>
-                                @empty
-                                    <option value="0" disabled>No hay carreras registradas</option>
-                                @endforelse
-                            </x-select>
-                            <x-input-error for="dataForm.carrera" />
-                        </div>
                         @include('Modules.Shere.Users.data-form')
                     </div>
 

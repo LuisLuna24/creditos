@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Modules\Users\Admin;
 
+use App\Livewire\Forms\Share\Users\dataForm;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -9,6 +10,8 @@ use Livewire\Component;
 
 class Profile extends Component
 {
+
+    public dataForm $dataForm;
 
     public $carreras = [];
 

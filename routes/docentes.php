@@ -8,6 +8,9 @@ Route::get('/panel', function () {
     return view('Modules.Paneles.docentes');
 })->name('panel');
 
+Route::get('/perfil', function () {
+    return view('Modules.Users.Docentes.profile');
+})->name('profile');
 
 //& ====================================================================================== Talleres
 Route::get('talleres', function () {
