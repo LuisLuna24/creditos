@@ -3,6 +3,7 @@
 namespace App\Livewire\Modules\Users\Docentes\Talleres;
 
 use App\Models\talleres;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -14,7 +15,7 @@ class Create extends Component
 
     protected $rules = [
         'nombre' => 'required|string|max:100',
-        'tipo' => 'required|in:Académico,Cultural,Deportivo',
+        'tipo' => 'required|in:Academico,Cultural,Deportivo',
     ];
 
     public function saveTaller()
@@ -24,6 +25,7 @@ class Create extends Component
         DB::beginTransaction();
         try {
             talleres::create([
+                'docente_id' => Auth::user()->docente->docente_id,
                 'nombre' => $this->nombre,
                 'tipo' => $this->tipo,
             ]);

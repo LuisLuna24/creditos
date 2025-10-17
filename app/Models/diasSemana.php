@@ -13,7 +13,7 @@ class diasSemana extends Model
     protected $primaryKey = 'dia_id';
 
     protected $fillable = [
-        'dia_semana_id',
+        'dia_id',
         'nombre',
         'estatus',
     ];

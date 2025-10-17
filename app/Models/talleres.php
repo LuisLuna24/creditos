@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\tipoTallerEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,7 +18,12 @@ class talleres extends Model
         'taller_id',
         'docente_id',
         'nombre',
+        'tipo',
         'estatus',
+    ];
+
+    protected $casts = [
+        'tipos' => tipoTallerEnum::class,
     ];
 
     public function docente(): BelongsTo

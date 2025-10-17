@@ -74,10 +74,36 @@ class Read extends Component
         $this->seleccionarTodos = (count($this->alumnosSeleccionados) === $totalAlumnos && $totalAlumnos > 0);
     }
 
+    //^==================================================================================================Validacion de contraseña
+
+    public function verifyUserPassword(string $passwordField = 'password'): bool
+    {
+        $this->validate([
+            $passwordField => ['required', 'string'],
+        ]);
+
+        if (Hash::check($this->$passwordField, Auth::user()->password)) {
+            return true; // La contraseña es correcta
+        }
+
+        $this->notifications('danger', 'Error', 'La contraseña no coincide.');
+        $this->reset($passwordField);
+
+        return false;
+    }
+
+    public function resetPassword()
+    {
+        $this->reset(['password', 'password_confirmation']);
+        $this->resetErrorBag();
+    }
+
+
     //^==================================================================================================Confirmar creditos
 
     public function confirmarLiberarCreditos(string $type): void
     {
+        $this->resetPassword();
         $this->actionType = $type;
         $this->showConfirmModal = true;
     }
@@ -86,72 +112,58 @@ class Read extends Component
 
     public function liberarCreditos(): void
     {
-        $this->validate([
-            'password' => ['required', 'string', 'confirmed'],
-        ]);
-
-        if (!Hash::check($this->password, Auth::user()->password)) {
-            $this->notifications('danger', 'Error', 'La contraseña no coincide.');
-            return;
-        }
-
-        $alumnosIdsParaLiberar = [];
-        if ($this->actionType === 'selected') {
-            $alumnosIdsParaLiberar = HorariosAlumnos::whereIn('alumno_id', $this->alumnosSeleccionados)
-                ->pluck('alumno_id')
-                ->toArray();
-        } elseif ($this->actionType === 'all') {
-            $alumnosIdsParaLiberar = HorariosAlumnos::where('horario_id', $this->id)
-                ->pluck('alumno_id')
-                ->toArray();
-        }
-
-        if (empty($alumnosIdsParaLiberar)) {
-            $this->notifications('danger', 'Error', 'No se seleccionó ningún alumno válido.');
-            $this->closeModal();
+        if (!$this->verifyUserPassword()) {
             return;
         }
 
         try {
-            DB::transaction(function () use ($alumnosIdsParaLiberar) {
+            DB::transaction(function () {
                 $alumnosConCreditoYaLiberado = CreditosAlumnos::where('horario_id', $this->id)
-                    ->whereIn('alumno_id', $alumnosIdsParaLiberar)
-                    ->pluck('alumno_id')
-                    ->toArray();
+                    ->pluck('alumno_id');
 
-                $alumnosParaProcesar = array_diff($alumnosIdsParaLiberar, $alumnosConCreditoYaLiberado);
+                $query = HorariosAlumnos::where('horario_id', $this->id)
+                    ->whereNotIn('alumno_id', $alumnosConCreditoYaLiberado);
+
+                if ($this->actionType === 'selected') {
+                    if (empty($this->alumnosSeleccionados)) {
+                        $this->notifications('info', 'Información', 'No se ha seleccionado ningún alumno.');
+                        return;
+                    }
+                    $query->whereIn('alumno_id', $this->alumnosSeleccionados);
+                }
+
+                $alumnosParaProcesar = $query->pluck('alumno_id')->toArray();
 
                 if (empty($alumnosParaProcesar)) {
-                    $this->notifications('info', 'Información', 'Todos los alumnos seleccionados ya tenían su crédito liberado.');
+                    $this->notifications('info', 'Información', 'Todos los alumnos seleccionados ya tenían su crédito liberado o no hay alumnos por procesar.');
+                    $this->closeModal();
+                    return;
                 }
-
-                $nuevosCreditos = [];
-                foreach ($alumnosParaProcesar as $alumnoId) {
-                    $nuevosCreditos[] = [
-                        'alumno_id' => $alumnoId,
-                        'horario_id' => $this->id,
-                        'docente_id' => $this->docente,
-                        'taller_id' => $this->taller,
+                $nuevosCreditos = collect($alumnosParaProcesar)->map(function ($alumnoId) {
+                    return [
+                        'alumno_id'      => $alumnoId,
+                        'horario_id'     => $this->id,
+                        'docente_id'     => $this->docente,
+                        'taller_id'      => $this->taller,
                         'valor_numerico' => 1,
                         'valor_creditos' => 1,
-                        'desempenio' => 'Bueno',
-                        'created_at' => now(),
-                        'updated_at' => now(),
+                        'desempenio'     => 'Bueno',
+                        'created_at'     => now(),
+                        'updated_at'     => now(),
                     ];
-                }
+                })->all();
 
                 CreditosAlumnos::insert($nuevosCreditos);
 
                 DB::commit();
                 $this->notifications('success', 'Éxito', '¡Se liberaron ' . count($nuevosCreditos) . ' créditos exitosamente!');
                 $this->closeModal();
-                $this->reser(['password', 'password_confirmation']);
+                $this->resetPassword();
             });
-            $this->closeModal();
         } catch (\Exception $e) {
             DB::rollBack();
-            //dd($e);
-            $this->notifications('danger', 'Horario', 'Ocurrió un error al procesar la solicitud.');
+            dd($e);
+            $this->notifications('danger', 'Error', 'Ocurrió un error inesperado al procesar la solicitud.');
         }
     }
 
@@ -159,6 +171,39 @@ class Read extends Component
     {
         $this->showConfirmModal = false;
         $this->reset('alumnosSeleccionados', 'seleccionarTodos', 'actionType');
+    }
+
+    //^==================================================================================================Eliminar alumnos
+
+
+    public $deleteModalAlumno = false;
+    public $deleteId;
+
+    public function deleteAlumno($id)
+    {
+        $this->resetPassword();
+        $this->deleteModalAlumno = true;
+        $this->deleteId = $id;
+    }
+
+    public function deleteAlumnoSubmit()
+    {
+        if (!$this->verifyUserPassword()) {
+            return;
+        }
+
+        try {
+            DB::transaction(function () {
+                $registro = HorariosAlumnos::findOrFail($this->deleteId);
+                $registro->delete();
+            });
+
+            $this->notifications('success', 'Éxito', 'El alumno se dio de baja del horario exitosamente.');
+            $this->deleteModalAlumno = false;
+        } catch (\Exception $e) {
+            report($e); // Buena práctica: registrar el error para futura depuración
+            $this->notifications('danger', 'Error', 'Ocurrió un error inesperado al procesar la solicitud.');
+        }
     }
 
     //*================================================================================================================================= Notification
@@ -173,7 +218,6 @@ class Read extends Component
 
     public function render()
     {
-
         return view('livewire.modules.users.docentes.horarios.read', [
             'alumnos' => $this->alumnos, // Pasamos la propiedad computada a la vista
         ]);

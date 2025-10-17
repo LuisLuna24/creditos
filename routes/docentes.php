@@ -19,14 +19,21 @@ Route::get('talleres/create', function () {
 })->name('talleres.create');
 
 Route::get('talleres/{id}/edit', function ($id) {
+    $docente = Auth::user()->docente->docente_id;
+
+    $taller = talleres::findOrFail($id);
+    if ($taller->docente_id !== $docente) {
+        abort(403, 'No tienes permiso para ver este taller.');
+    }
+
     return view('Modules.Users.Docentes.Talleres.edit', ['id' => $id]);
 })->name('talleres.edit');
 
 Route::get('talleres/{id}/read', function ($id) {
-    $docente = Auth::user();
+    $docente = Auth::user()->docente->docente_id;
 
     $taller = talleres::findOrFail($id);
-    if ($taller->user_id !== $docente->id) {
+    if ($taller->docente_id !== $docente) {
         abort(403, 'No tienes permiso para ver este taller.');
     }
     return view('Modules.Users.Docentes.Talleres.read', ['id' => $id]);
