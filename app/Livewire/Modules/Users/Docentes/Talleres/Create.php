@@ -5,6 +5,7 @@ namespace App\Livewire\Modules\Users\Docentes\Talleres;
 use App\Models\talleres;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class Create extends Component
@@ -14,7 +15,12 @@ class Create extends Component
     public $tipo = 'Deportivo';
 
     protected $rules = [
-        'nombre' => 'required|string|max:100',
+        'nombre' => [
+            'required',
+            'max:100',
+            Rule::unique('talleres', 'nombre')
+                ->ignore($this->editId, 'taller_id')
+        ],
         'tipo' => 'required|in:Academico,Cultural,Deportivo',
     ];
 

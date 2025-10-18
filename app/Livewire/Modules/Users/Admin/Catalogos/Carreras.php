@@ -6,6 +6,7 @@ use App\Models\carreras as ModelsCarreras;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -17,6 +18,7 @@ class Carreras extends Component
     //*================================================================================================================================= Form
     public $modalForm = false;
     public $typeForm;
+    public $nombre, $editId;
     public function create()
     {
         $this->resetForm();
@@ -29,18 +31,41 @@ class Carreras extends Component
         $this->resetForm();
         $this->modalForm = true;
         $this->typeForm = 2;
+        $this->editId = $id;
+
+        $this->nombre = ModelsCarreras::findOrFail($id)->nombre;
     }
 
-    public function submitForms()
+    public function submitForm()
     {
+        $this->validate([
+            'nombre' => [
+                'required',
+                'max:100',
+                Rule::unique('carreras', 'nombre')
+                    ->ignore($this->editId, 'carrera_id')
+            ]
+        ]);
+
         DB::beginTransaction();
         try {
 
+            ModelsCarreras::updateOrCreate([
+                'carrera_id' => $this->editId
+            ], [
+                'nombre' => $this->nombre
+            ]);
+
+            if ($this->typeForm == 1) {
+                $message = 'La carrera se ha agregado correctamente.';
+            } else {
+                $message = 'La carrera se ha editado correctamente.';
+            }
 
             DB::commit();
             $this->closeModal();
             $this->resetForm();
-            $this->notifications('success', 'Carreas', '');
+            $this->notifications('success', 'Carreas', $message);
         } catch (\Exception $e) {
             DB::rollBack();
             //dd($e->getMessage());
@@ -51,19 +76,22 @@ class Carreras extends Component
     public function resetForm()
     {
         $this->reset([
-            'typeForm'
+            'typeForm',
+            'editId',
+            'nombre'
         ]);
-       $this->resetErrorBag();
+        $this->resetErrorBag();
     }
 
-    public function closeModal(){
+    public function closeModal()
+    {
         $this->modalForm = false;
     }
 
     //*================================================================================================================================= Estatus
 
     public $estatusModal = false;
-    public $statusId,$status;
+    public $statusId, $status;
 
     public function statusRegister($id)
     {
@@ -162,7 +190,7 @@ class Carreras extends Component
         });
 
         $collection = $collection->orderBy('created_at', 'desc')->paginate($this->perPage, pageName: "collection-page");
-        return view('livewire.modules.users.admin.catalogos.carreras',[
+        return view('livewire.modules.users.admin.catalogos.carreras', [
             'collection' => $collection
         ]);
     }

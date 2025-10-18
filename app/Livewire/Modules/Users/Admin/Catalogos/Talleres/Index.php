@@ -2,23 +2,32 @@
 
 namespace App\Livewire\Modules\Users\Admin\Catalogos\Talleres;
 
+use App\Models\docentes;
 use App\Models\talleres as ModelsTalleres;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Index extends Component
 {
     use WithPagination;
+
     public $perEstatus, $perPage = '10', $search;
 
+    public $docentes = [];
+    public function mount()
+    {
+        $this->docentes = docentes::where('estatus', 1)->orderBy('nombre', 'asc')->get();
+    }
 
 
-    //*================================================================================================================================= Form
 
-    public function create()
+    //*================================================================================================================================= Acciones
+
+    /*public function create()
     {
         return redirect()->route('admin.catalogos.talleres.create');
     }
@@ -26,11 +35,94 @@ class Index extends Component
     public function edit($id)
     {
         return redirect()->route('admin.catalogos.talleres.edit',['id' => $id]);
-    }
+    }*/
 
     public function view($id)
     {
-        return redirect()->route('admin.catalogos.talleres.read',['id' => $id]);
+        return redirect()->route('admin.catalogos.talleres.read', ['id' => $id]);
+    }
+
+    //*================================================================================================================================= Form
+    public $modalForm = false;
+    public $typeForm;
+    public $nombre, $docente = '', $tipo = 'Deportivo', $editId;
+    public function create()
+    {
+        $this->resetForm();
+        $this->modalForm = true;
+        $this->typeForm = 1;
+    }
+
+    public function edit($id)
+    {
+        $this->resetForm();
+        $this->modalForm = true;
+        $this->typeForm = 2;
+        $this->editId = $id;
+
+        $taller = ModelsTalleres::findOrFail($id);
+
+        $this->nombre = $taller->nombre;
+        $this->docente = $taller->docente_id;
+        $this->tipo = $taller->tipo;
+    }
+
+    public function submitForm()
+    {
+        $this->validate([
+            'nombre' => [
+                'required',
+                'max:100',
+                Rule::unique('talleres', 'nombre')
+                    ->ignore($this->editId, 'taller_id')
+            ],
+            'tipo' => 'required|in:Academico,Cultural,Deportivo',
+            'docente' => 'required'
+        ]);
+
+        DB::beginTransaction();
+        try {
+
+            ModelsTalleres::updateOrCreate([
+                'taller_id' => $this->editId
+            ], [
+                'nombre' => $this->nombre,
+                'docente_id' => $this->docente,
+                'tipo' => $this->tipo,
+            ]);
+
+            if ($this->typeForm == 1) {
+                $message = 'La carrera se ha agregado correctamente.';
+            } else {
+                $message = 'La carrera se ha editado correctamente.';
+            }
+
+            DB::commit();
+            $this->closeModal();
+            $this->resetForm();
+            $this->notifications('success', 'Carreas', $message);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            //dd($e->getMessage());
+            $this->notifications('danger', 'Carreas', 'Lo sentimos, que ha ocurrido un error. Si el problema persiste, contacte al área de sistemas');
+        }
+    }
+
+    public function resetForm()
+    {
+        $this->reset([
+            'typeForm',
+            'editId',
+            'nombre',
+            'docente',
+            'tipo',
+        ]);
+        $this->resetErrorBag();
+    }
+
+    public function closeModal()
+    {
+        $this->modalForm = false;
     }
 
 

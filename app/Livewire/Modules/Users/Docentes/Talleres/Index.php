@@ -7,6 +7,7 @@ use App\Models\horariosTalleres;
 use App\Models\talleres;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -53,7 +54,12 @@ class Index extends Component
     public $editId;
 
     protected $rules = [
-        'nombre' => 'required|string|max:100',
+        'nombre' => [
+            'required',
+            'max:100',
+            Rule::unique('talleres', 'nombre')
+                ->ignore($this->editId, 'taller_id')
+        ],
         'tipo' => 'required|in:Academico,Cultural,Deportivo',
     ];
 

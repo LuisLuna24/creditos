@@ -220,7 +220,7 @@ class Read extends Component
         $alumnos = horariosAlumnos::query();
 
         if ($this->vieId) {
-            $alumnos = $alumnos->where('horario_alumno_id', $this->vieId);
+            $alumnos = $alumnos->where('horario_id', $this->vieId);
         }
 
         $alumnos = $alumnos->orderBy('alumno_id', 'asc')->paginate('10', pageName: 'alumnos-page');

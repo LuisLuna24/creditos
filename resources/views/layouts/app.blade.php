@@ -92,11 +92,12 @@
                                 </li>
 
                                 <li class="px-1 py-0.5 first:mt-2">
-                                    <a href="{{ route('admin.catalogos.talleres.index') }}" @class([
-                                        'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
-                                        'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                            'admin.catalogos.talleres'),
-                                    ])>
+                                    <a href="{{ route('admin.catalogos.talleres.index') }}"
+                                        @class([
+                                            'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
+                                            'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
+                                                'admin.catalogos.talleres'),
+                                        ])>
                                         {!! file_get_contents(public_path('svg/chevron-right.svg')) !!}
                                         <span>Talleres</span>
                                     </a>
@@ -121,8 +122,9 @@
                                 aria-controls="user-management" x-bind:aria-expanded="isExpanded ? 'true' : 'false'"
                                 @class([
                                     'flex items-center justify-between rounded-sm gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-hidden focus-visible:underline',
-                                    'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                        'admin.usuarios.*'),
+                                    'bg-gray-100 dark:bg-white/10 font-bold' =>
+                                        request()->routeIs('admin.usuarios.*') ||
+                                        request()->routeIs('admin.usuarios'),
                                 ])
                                 x-bind:class="isExpanded ? 'text-neutral-900 bg-gray-900/10 dark:text-white dark:bg-white/10' :
                                     'text-neutral-600 hover:bg-gray-900/5 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white dark:hover:bg-white/5'">
@@ -154,8 +156,9 @@
                                 <li class="px-1 py-0.5 first:mt-2">
                                     <a href="{{ route('admin.usuarios.docentes') }}" @class([
                                         'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
-                                        'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                            'admin.usuarios.docentes.*') || request()->routeIs('admin.usuarios.docentes') ,
+                                        'bg-gray-100 dark:bg-white/10 font-bold' =>
+                                            request()->routeIs('admin.usuarios.docentes.*') ||
+                                            request()->routeIs('admin.usuarios.docentes'),
                                     ])>
                                         {!! file_get_contents(public_path('svg/chevron-right.svg')) !!}
                                         <span>Docentes</span>
@@ -165,8 +168,9 @@
                                 <li class="px-1 py-0.5 first:mt-2">
                                     <a href="{{ route('admin.usuarios.alumnos') }}" @class([
                                         'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-600 underline-offset-2 hover:bg-gray-900/5 hover:text-gray-900 focus-visible:underline focus:outline-hidden dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white',
-                                        'bg-gray-100 dark:bg-white/10 font-bold' => request()->routeIs(
-                                            'admin.usuarios.alumnos.*') || request()->routeIs('admin.usuarios.alumnos') ,
+                                        'bg-gray-100 dark:bg-white/10 font-bold' =>
+                                            request()->routeIs('admin.usuarios.alumnos.*') ||
+                                            request()->routeIs('admin.usuarios.alumnos'),
                                     ])>
                                         {!! file_get_contents(public_path('svg/chevron-right.svg')) !!}
                                         <span>Alumnos</span>

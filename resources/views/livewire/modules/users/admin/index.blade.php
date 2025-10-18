@@ -56,6 +56,7 @@
             <x-table.th>No.</x-table.th>
             <x-table.th>Nombre</x-table.th>
             <x-table.th>Correo</x-table.th>
+            <x-table.th>Tipo usuario</x-table.th>
             <x-table.th>Estatus</x-table.th>
             <x-table.th>Acciones</x-table.th>
         </x-slot>
@@ -65,9 +66,10 @@
                     <x-table.td>{{ ($collection->currentPage() - 1) * $collection->perPage() + $loop->iteration }}</x-table.td>
                     <x-table.td>{{ $item->name }}</x-table.td>
                     <x-table.td>{{ $item->email }}</x-table.td>
+                    <x-table.td>{{ $item->typeUser->name }}</x-table.td>
                     <x-table.td>
                         <x-toggle-switch :id="$item->id" :checked="$item->estatus" :disabled="true"
-                                wireClick="statusRegister({{ $item->id }})" />
+                            wireClick="statusRegister({{ $item->id }})" />
                     </x-table.td>
                     <x-table.td-buttons>
                         <x-table.button-table tipo="edit" wire:click="edit({{ $item->id }})" />

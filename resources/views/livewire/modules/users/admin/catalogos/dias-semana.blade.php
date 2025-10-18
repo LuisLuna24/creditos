@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <!-- Botón de nuevo registro - Estilo mejorado -->
+        <!-- Botón de nuevo registro - Estilo mejorado
         <div class="flex flex-col justify-end">
             <x-button wire:click="create">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -50,13 +50,13 @@
                 <span>Nuevo</span>
             </x-button>
         </div>
+        -->
     </section>
     <x-table.table>
         <x-slot name="titles">
             <x-table.th>No.</x-table.th>
             <x-table.th>Nombre</x-table.th>
             <x-table.th>Estatus</x-table.th>
-            <x-table.th>Acciones</x-table.th>
         </x-slot>
         <x-slot name="rows">
             @forelse ($collection as $index => $item)
@@ -67,13 +67,9 @@
                         <x-toggle-switch :id="$item->dia_id" :checked="$item->estatus" :disabled="true"
                                 wireClick="statusRegister({{ $item->dia_id }})" />
                     </x-table.td>
-                    <x-table.td-buttons>
-                        <x-table.button-table tipo="edit" wire:click="edit({{ $item->dia_id }})" />
-                        <x-table.button-table tipo="delete" wire:click="delete({{ $item->dia_id }})" />
-                    </x-table.td-buttons>
                 </x-table.tr>
             @empty
-                <x-table.empty-state cols="5" message="No hay usuarios disponibles" />
+                <x-table.empty-state cols="3" message="No hay usuarios disponibles" />
             @endforelse
 
         </x-slot>

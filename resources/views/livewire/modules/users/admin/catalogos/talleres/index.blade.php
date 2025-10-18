@@ -26,7 +26,7 @@
         <div class="col-span-2 md:flex-1 flex flex-col space-y-1 relative">
             <label for="search" class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Buscar:</label>
             <div class="relative">
-                <x-input wire:model.live.debounce.500ms="search" id="search" placeholder="Buscar por nombre..."
+                <x-input wire:model.live.debounce.500ms="search" id="search" placeholder="Buscar por taller..."
                     class="w-full pl-10 pr-8 rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" />
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     {!! file_get_contents(public_path('svg/search.svg')) !!}
@@ -55,7 +55,7 @@
         <x-slot name="titles">
             <x-table.th>No.</x-table.th>
             <x-table.th>Docente</x-table.th>
-            <x-table.th>Nombre</x-table.th>
+            <x-table.th>Taller</x-table.th>
             <x-table.th>Estatus</x-table.th>
             <x-table.th class="text-center">Acciones</x-table.th>
         </x-slot>
@@ -124,6 +124,65 @@
                 <div class="flex justify-around mt-5">
                     <x-danger-button wire:click="$set('estatusModal',false)">Cancelar</x-danger-button>
                     <x-button>Guardar</x-button>
+                </div>
+            </form>
+        </x-slot>
+        <x-slot name="footer"></x-slot>
+    </x-dialog-modal>
+
+    <x-dialog-modal wire:model="modalForm">
+        <x-slot name="title">
+            <h2 class="text-center">{{ $typeForm == 1 ? 'Crear' : 'Editar' }} Registro</h2>
+        </x-slot>
+        <x-slot name="content">
+            <form wire:submit="submitForm" class="space-y-6">
+                <div class="flex flex-col gap-1">
+                    <label for="docente"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Docente</label>
+                    <x-select wire:model="docente" id="docente">
+                        <option value="" disabled>Seleccione un docente</option>
+                        @forelse ($docentes as $item)
+                            <option value="{{ $item->docente_id }}">{{ $item->user->name }}</option>
+                        @empty
+                            <option value="0" disabled>Seleccione un docente</option>
+                        @endforelse
+                    </x-select>
+                    <x-input-error for="docente" class="mt-2" />
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <label for="nombre"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre
+                        del
+                        Taller</label>
+                    <x-input type="text" wire:model="nombre" id="nombre"
+                        placeholder="Ej. Taller de Fotografía Digital" />
+                    <x-input-error for="nombre" class="mt-2" />
+                </div>
+
+                <div>
+                    <label for="tipo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo
+                        de
+                        Taller</label>
+                    <select wire:model="tipo" id="tipo"
+                        class="block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        <option value="Deportivo">Deportivo</option>
+                        <option value="Cultural">Cultural</option>
+                        <option value="Academico">Académico</option>
+                    </select>
+                    <x-input-error for="tipo" class="mt-2" />
+                </div>
+
+                <div class="flex justify-around mt-5">
+                    <x-danger-button wire:click="$set('modalForm',false)">Cancelar</x-danger-button>
+                    <x-button type="submit">
+                        <span wire:loading.remove wire:target="submitForm">
+                            Guardar
+                        </span>
+                        <span wire:loading wire:target="submitForm">
+                            Guardando...
+                        </span>
+                    </x-button>
                 </div>
             </form>
         </x-slot>

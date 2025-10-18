@@ -70,6 +70,8 @@ class Index extends Component
             }
         }
 
+        $collection = $collection->where('type_user_id', '!=', 1);
+
         $collection = $collection->where(function ($query) {
             $query->where('name', 'like', '%' . $this->search . '%');
         });

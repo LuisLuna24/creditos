@@ -65,7 +65,7 @@
                     <x-table.td>{{ $item->nombre }}</x-table.td>
                     <x-table.td>
                         <x-toggle-switch :id="$item->carrera_id" :checked="$item->estatus" :disabled="true"
-                                wireClick="statusRegister({{ $item->carrera_id }})" />
+                            wireClick="statusRegister({{ $item->carrera_id }})" />
                     </x-table.td>
                     <x-table.td-buttons>
                         <x-table.button-table tipo="edit" wire:click="edit({{ $item->carrera_id }})" />
@@ -133,10 +133,21 @@
         </x-slot>
         <x-slot name="content">
             <form wire:submit="submitForm">
-
+                <div class="flex flex-col gap-1">
+                    <label for="nombre">Nombre de la carrera</label>
+                    <x-input wire:model="nombre" />
+                    <x-input-error for="nombre" />
+                </div>
                 <div class="flex justify-around mt-5">
                     <x-danger-button wire:click="$set('modalForm',false)">Cancelar</x-danger-button>
-                    <x-button>Guardar</x-button>
+                    <x-button type="submit">
+                        <span wire:loading.remove wire:target="submitForm">
+                            Guardar Carrera
+                        </span>
+                        <span wire:loading wire:target="submitForm">
+                            Guardando...
+                        </span>
+                    </x-button>
                 </div>
             </form>
         </x-slot>
