@@ -14,19 +14,17 @@ class Create extends Component
     public $nombre = '';
     public $tipo = 'Deportivo';
 
-    protected $rules = [
-        'nombre' => [
-            'required',
-            'max:100',
-            Rule::unique('talleres', 'nombre')
-                ->ignore($this->editId, 'taller_id')
-        ],
-        'tipo' => 'required|in:Academico,Cultural,Deportivo',
-    ];
-
     public function saveTaller()
     {
-        $this->validate();
+        $this->validate([
+            'nombre' => [
+                'required',
+                'max:100',
+                Rule::unique('talleres', 'nombre')
+                    ->ignore($this->editId, 'taller_id')
+            ],
+            'tipo' => 'required|in:Academico,Cultural,Deportivo',
+        ]);
 
         DB::beginTransaction();
         try {

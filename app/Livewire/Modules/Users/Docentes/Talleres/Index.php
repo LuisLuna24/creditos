@@ -53,15 +53,6 @@ class Index extends Component
     public $tipo = 'Deportivo';
     public $editId;
 
-    protected $rules = [
-        'nombre' => [
-            'required',
-            'max:100',
-            Rule::unique('talleres', 'nombre')
-                ->ignore($this->editId, 'taller_id')
-        ],
-        'tipo' => 'required|in:Academico,Cultural,Deportivo',
-    ];
 
     public function edit($id)
     {
@@ -76,7 +67,15 @@ class Index extends Component
 
     public function submitForm()
     {
-        $this->validate();
+        $this->validate([
+            'nombre' => [
+                'required',
+                'max:100',
+                Rule::unique('talleres', 'nombre')
+                    ->ignore($this->editId, 'taller_id')
+            ],
+            'tipo' => 'required|in:Academico,Cultural,Deportivo',
+        ]);
 
         DB::beginTransaction();
         try {
